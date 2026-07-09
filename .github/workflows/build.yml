@@ -17,7 +17,7 @@ jobs:
       - name: Build and Push Image
         uses: redhat-actions/buildah-build@v2
         with:
-          image: bazzite-gnome-bc250
+          image: bazzite-gnome-bc250-unlocked
           tags: latest
           containerfiles: |
             ./Containerfile
@@ -32,6 +32,6 @@ jobs:
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: bazzite-gnome-bc250
+          image: bazzite-gnome-bc250-unlocked
           tags: latest
           registry: ghcr.io/${{ github.actor }}
