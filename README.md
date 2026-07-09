@@ -1,0 +1,1 @@
+# bazzite-gnome-bc250-unlocked
