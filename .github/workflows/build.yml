@@ -1,0 +1,37 @@
+name: Build Custom Bazzite GNOME
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build and Push Image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: bazzite-gnome-bc250
+          tags: latest
+          containerfiles: |
+            ./Containerfile
+
+      - name: Log in to GHCR
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push To GHCR
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: bazzite-gnome-bc250
+          tags: latest
+          registry: ghcr.io/${{ github.actor }}
